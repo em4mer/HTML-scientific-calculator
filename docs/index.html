@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.7.0/math.min.js"></script>
+</head>
+<body class="dark">
+    <div class="calculator dark">
+        <input type="text" id="display" disabled>
+        <div class="buttons">
+            <button onclick="handleButtonClick(() => clearDisplay())" id="clear" data-tooltip="Clear Display (Esc)">C</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('('))" id="open-paren" data-tooltip="Open Parenthesis (()">(</button>
+            <button onclick="handleButtonClick(() => appendToDisplay(')'))" id="close-paren" data-tooltip="Close Parenthesis ())">)</button>
+            <button onclick="handleButtonClick(() => deleteLast())" id="delete" data-tooltip="Delete Last Character (Backspace)">DEL</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('7'))" id="seven" data-tooltip="Number 7 (7)">7</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('8'))" id="eight" data-tooltip="Number 8 (8)">8</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('9'))" id="nine" data-tooltip="Number 9 (9)">9</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('/'))" id="divide" data-tooltip="Divide (/)">/</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('4'))" id="four" data-tooltip="Number 4 (4)">4</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('5'))" id="five" data-tooltip="Number 5 (5)">5</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('6'))" id="six" data-tooltip="Number 6 (6)">6</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('*'))" id="multiply" data-tooltip="Multiply (*)">*</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('1'))" id="one" data-tooltip="Number 1 (1)">1</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('2'))" id="two" data-tooltip="Number 2 (2)">2</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('3'))" id="three" data-tooltip="Number 3 (3)">3</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('-'))" id="subtract" data-tooltip="Subtract (-)">-</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('0'))" id="zero" class="zero" data-tooltip="Number 0 (0)">0</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('.'))" id="decimal" data-tooltip="Decimal Point (.)">.</button>
+            <button onclick="handleButtonClick(() => calculate())" id="equals" class="equals" data-tooltip="Calculate Result (Enter/=)">=</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('+'))" id="add" data-tooltip="Add (+)">+</button>
+
+            <button onclick="handleButtonClick(() => appendToDisplay('%'))" id="percentage" data-tooltip="Percentage (%)">%</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('sqrt('))" id="sqrt" data-tooltip="Square Root (s)">√</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('^'))" id="exponent" data-tooltip="Exponent (^)">^</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('sin('))" id="sin" data-tooltip="Sine (S)">sin</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('cos('))" id="cos" data-tooltip="Cosine (C)">cos</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('tan('))" id="tan" data-tooltip="Tangent (T)">tan</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('log('))" id="log" data-tooltip="Logarithm (Base 10, l)">log</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('ln('))" id="ln" data-tooltip="Natural Logarithm (L)">ln</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('pi'))" id="pi" data-tooltip="Pi (π, p)">π</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('e'))" id="euler" data-tooltip="Euler's Number (e, E)">e</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('!'))" id="factorial" data-tooltip="Factorial (!)">!</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('mod'))" id="modulus" data-tooltip="Modulus (mod)">mod</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('nthRoot('))" id="nth-root" data-tooltip="Nth Root (n)">ⁿ√</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('abs('))" id="absolute" data-tooltip="Absolute Value (a)">abs</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('floor('))" id="floor" data-tooltip="Floor (f)">floor</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('ceil('))" id="ceil" data-tooltip="Ceiling (c)">ceil</button>
+            <button onclick="handleButtonClick(() => appendToDisplay('round('))" id="round" data-tooltip="Round (r)">round</button>
+
+            <button onclick="handleButtonClick(() => memoryAdd())" id="memory-add" data-tooltip="Memory Add (m)">M+</button>
+            <button onclick="handleButtonClick(() => memorySubtract())" id="memory-subtract" data-tooltip="Memory Subtract (M)">M-</button>
+            <button onclick="handleButtonClick(() => memoryRecall())" id="memory-recall" data-tooltip="Memory Recall (r)">MR</button>
+            <button onclick="handleButtonClick(() => memoryClear())" id="memory-clear" data-tooltip="Memory Clear (c)">MC</button>
+            <button onclick="handleButtonClick(() => clearHistory())" id="clear-history" class="clear-history" data-tooltip="Clear History (h)">Clear History</button>
+
+            <button onclick="toggleTheme()" id="themeToggle" data-tooltip="Toggle Theme (t)">☀️</button>
+            <button onclick="toggleSound()" id="soundToggle" data-tooltip="Toggle Sound (S)">🔊</button>
+
+            <button onclick="handleButtonClick(() => undo())" id="undo" data-tooltip="Undo (z)">↩️</button>
+            <button onclick="handleButtonClick(() => redo())" id="redo" data-tooltip="Redo (Z)">↪️</button>
+            <button onclick="handleButtonClick(() => setDecimalPrecision(2))" data-tooltip="Set Precision: 2 (2)">.00</button>
+            <button onclick="handleButtonClick(() => setDecimalPrecision(4))" data-tooltip="Set Precision: 4 (4)">.0000</button>
+            <button onclick="handleButtonClick(() => setDecimalPrecision(6))" data-tooltip="Set Precision: 6 (6)">.000000</button>
+        </div>
+        <div id="history" class="history"></div>
+    </div>
+    <audio id="buttonSound">
+        <source src="button.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script src="script.js"></script>
+</body>
+</html>
